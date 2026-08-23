@@ -1,16 +1,158 @@
-# React + Vite
+# ServiceHub - Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
 
-Currently, two official plugins are available:
+The **ServiceHub Web Application** is the frontend of the ServiceHub Home Service Request System.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+It provides a web interface for customers and service providers to interact with the ServiceHub backend services.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 👨‍🎓 Student Information
 
-## Expanding the ESLint configuration
+| Information | Details |
+|---|---|
+| Student Name | Yashoda Gunawardhana |
+| Student ID | 241711077 |
+| Project | ServiceHub |
+| Component | Web Application |
+| GCP Project ID | Not created yet |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Technology Stack
+
+- React
+- JavaScript
+- Vite
+- React Router
+- Axios
+- Tailwind CSS
+- HTML
+- CSS
+
+---
+
+## 🏗️ Architecture
+
+The frontend communicates with the backend through the API Gateway.
+
+```
+ServiceHub Web
+     |
+     v
+API Gateway :8080
+     |
+     +-------- User Service
+     |
+     +-------- Request Service
+     |
+     +-------- Provider Service
+```
+
+---
+
+## 🔗 Backend Communication
+
+Axios is used to communicate with the ServiceHub backend APIs.
+
+The frontend sends requests through:
+
+```
+http://localhost:8080
+```
+
+The API Gateway then routes the requests to the relevant microservice.
+
+---
+
+## 📄 Main Features
+
+The web application supports features such as:
+
+- User registration
+- User login
+- Customer dashboard
+- Service request management
+- Request viewing
+- Service provider functionality
+
+Additional features can be added as the project develops.
+
+---
+
+## 📁 Project Structure
+
+```
+servicehub-web/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── pages/
+│   └── services/
+│
+├── package.json
+├── vite.config.js
+├── index.html
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Run Development Server
+
+```bash
+npm run dev
+```
+
+The application will normally be available at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 🔨 Build
+
+```bash
+npm run build
+```
+
+---
+
+## 👀 Preview Production Build
+
+```bash
+npm run preview
+```
+
+---
+
+## 🔗 GitHub Repository
+
+https://github.com/yashodha-gunawardana/servicehub-web
+
+---
+
+## 📌 Project Status
+
+- React: ✅
+- Vite: ✅
+- React Router: ✅
+- Axios: ✅
+- Tailwind CSS: ✅
+- Backend API Integration: 🔄
+- Cloud Run Deployment: ⏳
+
+---
