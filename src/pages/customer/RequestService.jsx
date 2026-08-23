@@ -99,112 +99,167 @@ function RequestService() {
   };
 
   return (
-    <div>
-      <h1>ServiceHub</h1>
+    <div className="min-h-screen w-full bg-slate-50">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
 
-      <Link to="/customer/dashboard">
-        <button>Back to Dashboard</button>
-      </Link>
-
-      <h2>Request a Service</h2>
-
-      {error && <p>{error}</p>}
-      {success && <p>{success}</p>}
-
-      <form onSubmit={handleSubmit}>
-
+        {/* Header */}
         <div>
-          <label htmlFor="serviceType">
-            Service Type
-          </label>
-
-          <select
-            id="serviceType"
-            name="serviceType"
-            value={formData.serviceType}
-            onChange={handleChange}
-            required
+          <Link
+            to="/customer/dashboard"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline mb-4"
           >
-            <option value="">Select service</option>
-            <option value="PLUMBING">Plumbing</option>
-            <option value="ELECTRICAL">Electrical</option>
-            <option value="CLEANING">Cleaning</option>
-            <option value="AC_REPAIR">AC Repair</option>
-            <option value="CARPENTRY">Carpentry</option>
-            <option value="PAINTING">Painting</option>
-            <option value="GARDENING">Gardening</option>
-          </select>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Dashboard
+          </Link>
+
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+              Request a Service
+            </h1>
+          </div>
+          <p className="text-sm text-slate-500">
+            Fill in the details below and we'll match you with a provider.
+          </p>
         </div>
 
-        <div>
-          <label htmlFor="description">
-            Description
-          </label>
+        {/* Error message */}
+        {error && (
+          <div className="p-4 text-sm text-red-700 bg-red-50 rounded-xl border border-red-200 flex items-start gap-3">
+            <svg className="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="font-medium">{error}</p>
+          </div>
+        )}
 
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            placeholder="Describe the service you need"
-            rows="5"
-            required
-          />
-        </div>
+        {/* Success message */}
+        {success && (
+          <div className="p-4 text-sm text-green-700 bg-green-50 rounded-xl border border-green-200 flex items-start gap-3">
+            <svg className="w-5 h-5 text-green-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="font-medium">{success}</p>
+          </div>
+        )}
 
-        <div>
-          <label htmlFor="location">
-            Location
-          </label>
+        {/* Form Card */}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
 
-          <input
-            id="location"
-            type="text"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            placeholder="Enter service location"
-            required
-          />
-        </div>
+            {/* Service Type */}
+            <div>
+              <label htmlFor="serviceType" className="block text-sm font-semibold text-slate-700 mb-1.5">
+                Service Type
+              </label>
+              <select
+                id="serviceType"
+                name="serviceType"
+                value={formData.serviceType}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-900 bg-slate-50/50 focus:bg-white outline-none text-sm"
+              >
+                <option value="">Select service</option>
+                <option value="PLUMBING">Plumbing</option>
+                <option value="ELECTRICAL">Electrical</option>
+                <option value="CLEANING">Cleaning</option>
+                <option value="AC_REPAIR">AC Repair</option>
+                <option value="CARPENTRY">Carpentry</option>
+                <option value="PAINTING">Painting</option>
+                <option value="GARDENING">Gardening</option>
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor="providerId">
-            Select Provider
-          </label>
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-1.5">
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                placeholder="Describe the service you need"
+                rows="5"
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-900 placeholder:text-slate-400 bg-slate-50/50 focus:bg-white outline-none text-sm resize-none"
+              />
+            </div>
 
-          {loadingProviders ? (
-            <p>Loading providers...</p>
-          ) : (
-            <select
-              id="providerId"
-              name="providerId"
-              value={formData.providerId}
-              onChange={handleChange}
-              required
-            >
-              <option value="">
-                Select a provider
-              </option>
+            {/* Location */}
+            <div>
+              <label htmlFor="location" className="block text-sm font-semibold text-slate-700 mb-1.5">
+                Location
+              </label>
+              <input
+                id="location"
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder="Enter service location"
+                required
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-900 placeholder:text-slate-400 bg-slate-50/50 focus:bg-white outline-none text-sm"
+              />
+            </div>
 
-              {providers.map((provider) => (
-                <option
-                  key={provider.id}
-                  value={provider.id}
+            {/* Provider */}
+            <div>
+              <label htmlFor="providerId" className="block text-sm font-semibold text-slate-700 mb-1.5">
+                Select Provider
+              </label>
+
+              {loadingProviders ? (
+                <p className="text-sm text-slate-500">Loading providers...</p>
+              ) : (
+                <select
+                  id="providerId"
+                  name="providerId"
+                  value={formData.providerId}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-900 bg-slate-50/50 focus:bg-white outline-none text-sm"
                 >
-                  {provider.name} - {provider.serviceType} -{" "}
-                  {provider.location}
-                </option>
-              ))}
-            </select>
-          )}
+                  <option value="">Select a provider</option>
+
+                  {providers.map((provider) => (
+                    <option key={provider.id} value={provider.id}>
+                      {provider.name} - {provider.serviceType} - {provider.location}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all shadow-md shadow-blue-500/20 disabled:opacity-60 disabled:cursor-not-allowed flex justify-center items-center gap-2 text-sm"
+            >
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                "Submit Request"
+              )}
+            </button>
+          </form>
         </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit Request"}
-        </button>
-
-      </form>
+      </div>
     </div>
   );
 }
