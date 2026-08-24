@@ -248,6 +248,25 @@ function CustomerDashboard() {
                       {request.providerId}
                     </p>
                   )}
+
+                  {request.imageFileName && (
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-slate-700 mb-2">
+                        Service Image:
+                      </p>
+
+                      <img
+                        src={`${api.defaults.baseURL}/api/requests/image/${encodeURIComponent(
+                          request.imageFileName
+                        )}`}
+                        alt="Service request"
+                        className="w-full max-w-md h-56 object-cover rounded-xl border border-slate-200"
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

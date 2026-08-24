@@ -14,8 +14,10 @@ function RequestService() {
     description: "",
     location: "",
     providerId: "",
+    image: null,
   });
 
+  const [imagePreview, setImagePreview] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -47,6 +49,133 @@ function RequestService() {
     });
   };
 
+  const handleFileChange = (e) => { 
+    const file = e.target.files[0]; 
+    
+    setError(""); 
+
+    if (!file) { 
+      setFormData((prev) => ({ 
+        ...prev, image: null, 
+      })); 
+      
+      setImagePreview(""); 
+      return; 
+    } 
+    
+    // Allow only image files 
+    if (!file.type.startsWith("image/")) { 
+      setError("Please select a valid image file."); 
+      e.target.value = ""; 
+      return; 
+    } 
+    
+    // Maximum file size: 5MB 
+    if (file.size > 5 * 1024 * 1024) { 
+      setError("Image size must be less than 5MB."); 
+      e.target.value = ""; 
+      return; 
+    } 
+    
+    setFormData((prev) => ({ 
+      ...prev, 
+      image: file, 
+    })); 
+    
+    // Create preview 
+    const previewUrl = URL.createObjectURL(file); 
+    setImagePreview(previewUrl); 
+  }; 
+  
+  const removeImage = () => { 
+    setFormData((prev) => ({ 
+      ...prev, 
+      image: null, 
+    })); 
+    
+    setImagePreview(""); 
+    
+    const fileInput = document.getElementById("image"); 
+    
+    if (fileInput) { 
+      fileInput.value = ""; 
+    } 
+  };
+
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   setError("");
+  //   setSuccess("");
+  //   setLoading(true);
+
+  //   try {
+  //     const user = JSON.parse(localStorage.getItem("user"));
+
+  //     if (!user || !user.id) {
+  //       setError("Please login first.");
+  //       navigate("/login");
+  //       return;
+  //     }
+
+  //     const requestData = {
+  //       customerId: String(user.id),
+  //       serviceType: formData.serviceType,
+  //       description: formData.description,
+  //       location: formData.location,
+  //       providerId: formData.providerId,
+  //     };
+
+  //     const multipartData = new FormData();
+
+  //       multipartData.append(
+  //         "request",
+  //         new Blob([JSON.stringify(requestData)], {
+  //           type: "application/json",
+  //         })
+  //       );
+
+  //       if (formData.image) {
+  //         multipartData.append("image", formData.image);
+  //       }
+
+  //     const response = await api.post("/api/requests", multipartData);
+
+  //     console.log("Request created:", response.data);
+
+  //     setSuccess("Service request created successfully!");
+
+  //     setFormData({
+  //       serviceType: "",
+  //       description: "",
+  //       location: "",
+  //       providerId: "",
+  //       image: null,
+  //     });
+
+  //     setImagePreview("");
+
+  //     const fileInput = document.getElementById("image"); 
+      
+  //     if (fileInput) { 
+  //       fileInput.value = ""; 
+  //     }
+
+  //   } catch (err) {
+  //     console.error("Request creation error:", err);
+
+  //     setError(
+  //       err.response?.data?.message ||
+  //       (typeof err.response?.data === "string"
+  //         ? err.response.data
+  //         : "Failed to create service request.")
+  //     );
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -63,6 +192,7 @@ function RequestService() {
         return;
       }
 
+      // Create request object
       const requestData = {
         customerId: String(user.id),
         serviceType: formData.serviceType,
@@ -71,18 +201,49 @@ function RequestService() {
         providerId: formData.providerId,
       };
 
-      const response = await api.post("/api/requests", requestData);
+      // Create multipart form data
+      const multipartData = new FormData();
+
+      // Add request JSON as a Blob
+      multipartData.append(
+        "request",
+        new Blob(
+          [JSON.stringify(requestData)],
+          { type: "application/json" }
+        )
+      );
+
+      // Add image if selected
+      if (formData.image) {
+        multipartData.append("image", formData.image);
+      }
+
+      // Send multipart/form-data request
+      const response = await api.post(
+        "/api/requests",
+        multipartData
+      );
 
       console.log("Request created:", response.data);
 
       setSuccess("Service request created successfully!");
 
+      // Reset form
       setFormData({
         serviceType: "",
         description: "",
         location: "",
         providerId: "",
+        image: null,
       });
+
+      setImagePreview("");
+
+      const fileInput = document.getElementById("image");
+
+      if (fileInput) {
+        fileInput.value = "";
+      }
 
     } catch (err) {
       console.error("Request creation error:", err);
@@ -93,10 +254,12 @@ function RequestService() {
           ? err.response.data
           : "Failed to create service request.")
       );
+
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen w-full bg-slate-50">
@@ -209,6 +372,63 @@ function RequestService() {
                 required
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-slate-900 placeholder:text-slate-400 bg-slate-50/50 focus:bg-white outline-none text-sm"
               />
+            </div>
+
+            {/* Image Upload */} 
+            <div> 
+              <label 
+                htmlFor="image" 
+                className="block text-sm font-semibold text-slate-700 mb-1.5" > 
+                
+                Service Image 
+                
+                <span className="text-slate-400 font-normal"> 
+                  {" "} (Optional) 
+                </span> 
+              </label> 
+              
+              <div className="border-2 border-dashed border-slate-300 rounded-xl p-5 bg-slate-50/50 hover:bg-slate-50 transition-all"> 
+                <input 
+                  id="image" 
+                  type="file" 
+                  name="image" 
+                  accept="image/jpeg,image/png,image/jpg,image/webp" 
+                  onChange={handleFileChange} 
+                  className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold 
+                             file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 file:cursor-pointer" /> 
+                             
+                  <p className="mt-2 text-xs text-slate-500"> 
+                    JPG, PNG or WEBP. Maximum file size: 5MB. 
+                  </p> 
+              </div> 
+              
+              {/* Image Preview */} 
+              {imagePreview && ( 
+                <div className="mt-4"> 
+                  <div className="flex items-center justify-between mb-2"> 
+                    <p className="text-sm font-semibold text-slate-700"> 
+                      Image Preview 
+                    </p> 
+                    <button 
+                      type="button" 
+                      onClick={removeImage} 
+                      className="text-sm font-medium text-red-600 hover:text-red-700" > 
+                      Remove 
+                    </button> 
+                  </div> 
+                  
+                  <img 
+                    src={imagePreview} 
+                    alt="Selected service" 
+                    className="w-full max-h-64 object-cover rounded-xl border border-slate-200" /> 
+                    {formData.image && ( 
+                      <p className="mt-2 text-xs text-slate-500"> 
+                         {formData.image.name} ( 
+                          {(formData.image.size / 1024 / 1024).toFixed(2)} MB) 
+                      </p> 
+                    )} 
+                </div> 
+              )} 
             </div>
 
             {/* Provider */}
