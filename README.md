@@ -16,7 +16,7 @@ It provides a web interface for customers and service providers to interact with
 | Student ID | 241711077 |
 | Project | ServiceHub |
 | Component | Web Application |
-| GCP Project ID | Not created yet |
+| GCP Project ID | project-a6d8ea92-fb5d-4ed6-99d |
 
 ---
 
