@@ -139,20 +139,4 @@ npm run preview
 
 ---
 
-## 🔗 GitHub Repository
 
-https://github.com/yashodha-gunawardana/servicehub-web
-
----
-
-## 📌 Project Status
-
-- React: ✅
-- Vite: ✅
-- React Router: ✅
-- Axios: ✅
-- Tailwind CSS: ✅
-- Backend API Integration: 🔄
-- Cloud Run Deployment: ⏳
-
----
